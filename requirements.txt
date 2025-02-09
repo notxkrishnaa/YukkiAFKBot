@@ -1,4 +1,5 @@
 asyncio
+ntplib
 dnspython
 motor
 pyrogram==1.4.16
