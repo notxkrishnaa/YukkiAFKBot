@@ -8,7 +8,20 @@
 # All rights reserved.
 
 import asyncio
-import time
+import ntplib
+from time import ctime
+
+def synchronize_time():
+    try:
+        c = ntplib.NTPClient()
+        response = c.request('pool.ntp.org')
+        return response.tx_time  # NTP time
+    except Exception as e:
+        print(f"Time sync failed: {e}")
+        return time.time()  # Fallback to local time
+
+# Override time function
+time.time = synchronize_time
 
 from motor.motor_asyncio import AsyncIOMotorClient as MongoClient
 from pyrogram import Client
