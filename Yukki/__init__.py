@@ -8,6 +8,7 @@
 # All rights reserved.
 
 import asyncio
+import time
 import ntplib
 from time import ctime
 
