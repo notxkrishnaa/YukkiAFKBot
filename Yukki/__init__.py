@@ -9,6 +9,7 @@
 
 import asyncio
 import time
+time.time = lambda: time.time() + 10  # Adjust time by adding 10 seconds
 
 from motor.motor_asyncio import AsyncIOMotorClient as MongoClient
 from pyrogram import Client
