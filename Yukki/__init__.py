@@ -7,17 +7,19 @@
 #
 # All rights reserved.
 
-import asyncio
-import datetime
 import time
+import ntplib
 
 # Fix for Render time sync issue
-class FixedTime:
-    @staticmethod
-    def time():
-        return datetime.datetime.utcnow().timestamp() + 10  # Adjusting by 10 sec
+def sync_time():
+    try:
+        client = ntplib.NTPClient()
+        response = client.request("pool.ntp.org")
+        return response.tx_time  # Get current synchronized time
+    except:
+        return time.time()  # Fallback to system time if NTP fails
 
-time.time = FixedTime.time  # Overriding time.time() safely
+time.time = sync_time  # Override time.time() with NTP synced time
 
 from motor.motor_asyncio import AsyncIOMotorClient as MongoClient
 from pyrogram import Client
