@@ -8,8 +8,16 @@
 # All rights reserved.
 
 import asyncio
+import datetime
 import time
-time.time = lambda: time.time() + 10  # Adjust time by adding 10 seconds
+
+# Fix for Render time sync issue
+class FixedTime:
+    @staticmethod
+    def time():
+        return datetime.datetime.utcnow().timestamp() + 10  # Adjusting by 10 sec
+
+time.time = FixedTime.time  # Overriding time.time() safely
 
 from motor.motor_asyncio import AsyncIOMotorClient as MongoClient
 from pyrogram import Client
