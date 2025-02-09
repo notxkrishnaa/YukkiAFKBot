@@ -7,19 +7,8 @@
 #
 # All rights reserved.
 
+import asyncio
 import time
-import ntplib
-
-# Fix for Render time sync issue
-def sync_time():
-    try:
-        client = ntplib.NTPClient()
-        response = client.request("pool.ntp.org")
-        return response.tx_time  # Get current synchronized time
-    except:
-        return time.time()  # Fallback to system time if NTP fails
-
-time.time = sync_time  # Override time.time() with NTP synced time
 
 from motor.motor_asyncio import AsyncIOMotorClient as MongoClient
 from pyrogram import Client
